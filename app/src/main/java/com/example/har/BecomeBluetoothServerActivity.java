@@ -1,27 +1,37 @@
 package com.example.har;
 
+// Import statements for accessing Android framework classes
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+
+// Import statements for handling background tasks and messaging
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+
+// Import statements for accessing Android UI components
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+// Import statements for accessing AndroidX components
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.net.URL;
 import java.util.Set;
+
+
+/**
+ * Activity to become a Bluetooth server and handle connections with remote devices.
+ */
 
 public class BecomeBluetoothServerActivity extends AppCompatActivity {
 
@@ -33,6 +43,14 @@ public class BecomeBluetoothServerActivity extends AppCompatActivity {
    private BluetoothHandler bluetoothHandler;
    private SocketIO socketHandler;
    private ConnectionHandler connectionHandler;
+
+    /**
+     * Called when the activity is starting.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being
+     *                           shut down then this Bundle contains the data it most recently supplied
+     *                           in onSaveInstanceState(Bundle).
+     */
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,9 +97,18 @@ public class BecomeBluetoothServerActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Show a toast message.
+     *
+     * @param message The message to display.
+     */
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+    /**
+     * Initialize Bluetooth handling.
+     */
     private void initializeBluetooth() {
         bluetoothHandler = new BluetoothHandler(this, new Handler(Looper.getMainLooper()) {
             @Override
@@ -122,6 +149,9 @@ public class BecomeBluetoothServerActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Initialize the socket handler.
+     */
     private void initSocketHandler(){
         socketHandler = new SocketIO(this, new Handler(Looper.getMainLooper()){
             @Override
@@ -139,6 +169,10 @@ public class BecomeBluetoothServerActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Initialize the connection handler.
+     */
     private void initConnectionHandler(){
         connectionHandler = new ConnectionHandler(this, new Handler(Looper.getMainLooper()){
             @Override
@@ -160,6 +194,14 @@ public class BecomeBluetoothServerActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Handle activity result.
+     *
+     * @param requestCode The request code.
+     * @param resultCode  The result code.
+     * @param data        The data returned.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -175,6 +217,10 @@ public class BecomeBluetoothServerActivity extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * Update the list of paired Bluetooth devices.
+     */
     private void updatePairedDevices() {
         Set<BluetoothDevice> pairedDevices = bluetoothHandler.getPairedDevices();
         System.out.println(pairedDevices);
@@ -187,6 +233,9 @@ public class BecomeBluetoothServerActivity extends AppCompatActivity {
         listConnectedDevices.setAdapter(adapter_paired_devices);
     }
 
+    /**
+     * Perform cleanup when activity is destroyed.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();

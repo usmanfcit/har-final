@@ -8,8 +8,19 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * CollectWearableDataActivity allows the user to choose between becoming a Bluetooth server
+ * or a wearable device to collect sensory data.
+ */
 public class CollectWearableDataActivity extends AppCompatActivity {
 
+    /**
+     * Called when the activity is starting.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
+     *                           Note: Otherwise, it is null.
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,9 +30,13 @@ public class CollectWearableDataActivity extends AppCompatActivity {
         Button btnBecomeWearable = findViewById(R.id.btnBecomeWearable);
 
         btnBecomeServer.setOnClickListener(new View.OnClickListener() {
+
+            /**
+             * Navigates to the BecomeBluetoothServerActivity.
+             */
             @Override
             public void onClick(View view) {
-                // Navigate to BecomeBluetoothServerActivity
+
                 Intent intent = new Intent(CollectWearableDataActivity.this, BecomeBluetoothServerActivity.class);
                 startActivity(intent);
             }
@@ -30,7 +45,10 @@ public class CollectWearableDataActivity extends AppCompatActivity {
         btnBecomeWearable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Navigate to WearableSensoryDataActivity
+
+                /**
+                 * Navigates to the WearableSensoryDataActivity.
+                 */
                 Intent intent = new Intent(CollectWearableDataActivity.this, WearableSensoryDataActivity.class);
                 startActivity(intent);
             }

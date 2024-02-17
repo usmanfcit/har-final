@@ -23,6 +23,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * BluetoothHandler class manages Bluetooth functionalities such as enabling Bluetooth, requesting permissions,
+ * discovering paired devices, accepting connections, and managing connected threads.
+ */
 public class BluetoothHandler {
 
     private static String TAG = "BluetoothHandler";
@@ -34,6 +38,12 @@ public class BluetoothHandler {
     private final Handler handler;
     private final Context context;
 
+    /**
+     * Constructor for BluetoothHandler.
+     *
+     * @param ctx     The context in which the BluetoothHandler is created.
+     * @param handler The handler to communicate with the UI thread.
+     */
     public BluetoothHandler(Context ctx, Handler handler ) {
         this.handler = handler;
         this.context = ctx;
@@ -110,6 +120,11 @@ public class BluetoothHandler {
         }
     }
 
+    /**
+     * Retrieves a set of paired Bluetooth devices.
+     *
+     * @return A set of paired Bluetooth devices.
+     */
     public Set<BluetoothDevice> getPairedDevices() {
         if (bluetoothAdapter != null) {
             if (checkBluetoothConnectPermission()) {
@@ -123,13 +138,20 @@ public class BluetoothHandler {
         return new HashSet<>();
     }
 
-
+    /**
+     * Starts accepting incoming Bluetooth connections.
+     */
     public void startAcceptingConnection() {
         acceptThread = new AcceptThread();
         acceptThread.start();
         showToast("Accepting");
     }
 
+    /**
+     * Initiates a connection to a remote Bluetooth device.
+     *
+     * @param device The Bluetooth device to connect to.
+     */
     public void connectToDevice(BluetoothDevice device) {
         connectThread = new ConnectThread(device);
         connectThread.start();
@@ -146,7 +168,9 @@ public class BluetoothHandler {
     }
 
 
-
+    /**
+     * Thread for accepting incoming Bluetooth connections.
+     */
     class AcceptThread extends Thread {
         private final BluetoothServerSocket serverSocket;
 
@@ -188,6 +212,9 @@ public class BluetoothHandler {
         }
     }
 
+    /**
+     * Thread for initiating a connection to a remote Bluetooth device.
+     */
     private class ConnectThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final BluetoothDevice mmDevice;
@@ -233,6 +260,9 @@ public class BluetoothHandler {
         }
     }
 
+    /**
+     * Thread for managing a Bluetooth connection.
+     */
     class ConnectedThread extends Thread  implements IMessageDelegator {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
